@@ -47,6 +47,20 @@ function validateField(inputElem, errorId, errorMessage) { // validacios fuggven
     return valid; // valid valtozo ertekenek visszaadasa
 }
 
+function validateHarcosok(harcolo2Ertek, hadero2Ertek) { // validacios fuggveny definialasa
+    let valid = true; // valid valtozo igaz ertekre allitasa
+    if (harcolo2Ertek !== '' && hadero2Ertek === '') { // ha a harcolo2 kitöltött de a hadero2 üres
+        document.getElementById('hadero2-error').innerHTML = 'A 2. fél haderejének megadása kötelező'; // hibauzenet elem lekerese es maga a hibauzenet megadasa
+        valid = false; // valid valtozo hamisra allitasa
+    }
+
+    if (harcolo2Ertek === '' && hadero2Ertek !== '') { // ha a harcolo2 üres de a hadero2 kitöltött
+        document.getElementById('harcolo2-error').innerHTML = 'A 2. szembenálló fél megadása kötelező!'; // hibauzenet elem lekerese es maga a hibauzenet megadasa
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    return valid; // valid valtozo ertekenek visszaadasa
+}
+
 function renderMenu() {
     const table = document.createElement('table'); // table elem letrehozasa
     menuContainer.appendChild(table); // hozzafuzes a menuContainer-hez
@@ -164,15 +178,8 @@ form.addEventListener('submit', function(e) {
         valid = false; // validacios valtozo hamisra allitasa
     }
 
-    //osszetett validacio linearisan
-    if (harcolo2Ertek !== '' && hadero2Ertek === '') { // ha a harcolo2 kitöltött de a hadero2 üres
-        document.getElementById('hadero2-error').innerHTML = 'A 2. fél haderejének megadása kötelező'; // hibauzenet elem lekerese es maga a hibauzenet megadasa
-        valid = false; // valid valtozo hamisra allitasa
-    }
-
-    if (harcolo2Ertek === '' && hadero2Ertek !== '') { // ha a harcolo2 üres de a hadero2 kitöltött
-        document.getElementById('harcolo2-error').innerHTML = 'A 2. szembenálló fél megadása kötelező!'; // hibauzenet elem lekerese es maga a hibauzenet megadasa
-        valid = false; // valid valtozo hamisra allitasa
+    if (!validateHarcosok(harcolo2Ertek, hadero2Ertek)) { // hivatkozok a validacios fuggvenyre
+        valid = false; // validacios valtozo hamisra all
     }
     
     if (valid) { // ha a valid valtozo meg mindig igaz
