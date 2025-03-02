@@ -35,6 +35,18 @@ const array = [ // tomb letrehozasa
 const menuContainer = document.createElement('div'); // div elem letrehozasa ami a tartalmazza a tablazatot
 document.body.appendChild(menuContainer); // hozzafuzes a bodyhoz
 
+function validateField(inputElem, errorId, errorMessage) { // validacios fuggveny definialasa
+    let valid = true; // lokalis valid valtozo igaz ertekre allitasa
+    if (inputElem === '') { // ha az input mezo ures
+        const errorElement = document.getElementById(errorId); // hibauzenet elem kivalasztasa id alapjan
+        if (errorElement) { // ha van ilyen hibauzenet elem 
+            errorElement.innerHTML = errorMessage; // hibauzenet beallitasa
+        }
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    return valid; // valid valtozo ertekenek visszaadasa
+}
+
 function renderMenu() {
     const table = document.createElement('table'); // table elem letrehozasa
     menuContainer.appendChild(table); // hozzafuzes a menuContainer-hez
@@ -140,24 +152,18 @@ form.addEventListener('submit', function(e) {
     
     let valid = true; // validacios valtozo kezdeti ertekre allitasa
     
-    if (harcnevErtek === '') { // ellenorzes, hogy a harc_nev ures-e
-        const harcnevError = document.getElementById('harcnev-error'); // harc_nev hibauzenet elem lekerese
-        harcnevError.innerHTML = 'A harc megnevezése kötelező!'; // hibauzenet beallitasa
+    if (!validateField(harcnevErtek, 'harcnev-error', 'A harc megnevezése kötelező!')) { // hivatkozok a validacios fuggvenyre
+        valid = false; // validacios valtozo hamisra allitasa
+    }
+
+    if (!validateField(harcolo1Ertek, 'harcolo1-error', 'Az 1. szembenálló fél megadása kötelező!')) { // hivatkozok a validacios fuggvenyre
         valid = false; // validacios valtozo hamisra allitasa
     }
     
-    if (harcolo1Ertek === '') { // ellenorzes, hogy a harcolo1 ures-e
-        const harcolo1Error = document.getElementById('harcolo1-error'); // harcolo1 hibauzenet elem lekerese
-        harcolo1Error.innerHTML = 'Az 1. szembenálló fél megadása kötelező!'; // hibauzenet beallitasa
+    if (!validateField(hadero1Ertek, 'hadero1-error', 'Az 1. fél haderejének megadása kötelező!')) { // hivatkozok a validacios fuggvenyre
         valid = false; // validacios valtozo hamisra allitasa
     }
-    
-    if (hadero1Ertek === '') { // ellenorzes, hogy a hadero1 ures-e
-        const hadero1Error = document.getElementById('hadero1-error'); // hadero1 hibauzenet elem lekerese
-        hadero1Error.innerHTML = 'Az 1. fél haderejének megadása kötelező!'; // hibauzenet beallitasa
-        valid = false; // validacios valtozo hamisra allitasa
-    }
-    
+
     if (harcolo2Ertek !== '' && hadero2Ertek === '') { // ellenorzes, hogy a harcolo2 kitoltott de a hadero2 ures
         const hadero2Error = document.getElementById('hadero2-error'); // hadero2 hibauzenet elem lekerese
         hadero2Error.innerHTML = 'Az 2. fél haderejének megadása kötelező'; // hibauzenet beallitasa
