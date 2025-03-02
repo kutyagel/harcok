@@ -61,7 +61,7 @@ function validateHarcosok(harcolo2Ertek, hadero2Ertek) { // validacios fuggveny 
     return valid; // valid valtozo ertekenek visszaadasa
 }
 
-function renderTableHeader(table) { // fejlec fuggveny definialasa
+function renderTableHeader(table, adatok) { // fejlec fuggveny definialasa
     const colgroup = document.createElement('colgroup'); // colgroup elem letrehozasa
     table.appendChild(colgroup); // hozzafuzes a tablazathoz
 
@@ -84,9 +84,9 @@ function renderTableHeader(table) { // fejlec fuggveny definialasa
     fejlec.appendChild(fejlecSor); // sor hozzafuzese a fejlechez
 
     const fejlecOszlopok = [ // fejlec oszlopok definialasa
-        { nev: 'harc_nev', szoveg: array[0].harc_nev}, // elso oszlop definialasa
-        { nev: 'harcolo1', szoveg: array[0].harcolo1}, // masodik oszlop definialasa
-        { nev: 'hadero1', szoveg: array[0].hadero1} // harmadik oszlop definialasa
+        { nev: 'harc_nev', szoveg: adatok[0].harc_nev}, // elso oszlop definialasa
+        { nev: 'harcolo1', szoveg: adatok[0].harcolo1}, // masodik oszlop definialasa
+        { nev: 'hadero1', szoveg: adatok[0].hadero1} // harmadik oszlop definialasa
     ];
     for (const oszlop of fejlecOszlopok) { // vegigiteralas az oszlopokon
         const fejlecCella = document.createElement('th'); // th elem letrehozasa a fejlec cellahoz
@@ -95,19 +95,19 @@ function renderTableHeader(table) { // fejlec fuggveny definialasa
     }
 }
 
-function renderMenu() {
+function renderMenu(adatok) {
     const table = document.createElement('table'); // table elem letrehozasa
     menuContainer.appendChild(table); // hozzafuzes a menuContainer-hez
     
-    renderTableHeader(table); // fejlec fuggveny hivas
+    renderTableHeader(table, adatok); // fejlec fuggveny hivas adatokkal
 
     // torzs
     const torzs = document.createElement('tbody'); // tbody elem letrehozasa a tablazat torzsehez
     table.appendChild(torzs); // torzs hozzafuzese a tablazathoz
 
     // sorok
-    for (let i = 1; i < array.length; i++) { // vegigiteralok az arrayen, az elso elemet kihagyva
-        const currentElement = array[i]; // az aktualis elem elmentese
+    for (let i = 1; i < adatok.length; i++) { // vegigiteralok az adatokon, az elso elemet kihagyva
+        const currentElement = adatok[i]; // az aktualis elem elmentese
 
         const sor1 = document.createElement('tr'); // tr elem letrehozasa az uj sorhoz
         torzs.appendChild(sor1); // sor hozzafuzese a torzshoz
@@ -142,7 +142,7 @@ function renderMenu() {
     }
 }
 
-renderMenu(); // kezdeti render
+renderMenu(array); // kezdeti render atadva az arrayt
 
 const form = document.getElementById('form'); // form elem lekerese ami a form idval van definialva
 
@@ -200,7 +200,7 @@ form.addEventListener('submit', function(e) {
         
         array.push(newElement); // uj elem hozzaadasa a tombhoz
         menuContainer.innerHTML = ''; // tablazat tartalmanak torlese
-        renderMenu(); // tablazat ujrarajzolasa
+        renderMenu(array); // tablazat ujrarajzolasa
         thisForm.reset(); // form resetelese
     }
 });
