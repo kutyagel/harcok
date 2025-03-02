@@ -1,0 +1,24 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid black;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+col.columns {
+    background-color: #4461bd;
+}
+
+th:nth-child(2) {
+    background-color: #609b4e;
+}
+
+.error {
+    color: red;
+    border: 1px solid black;
+    margin-top: 5px;
+}
